@@ -14,7 +14,7 @@ PROJECT_DIR = Path(__file__).resolve().parent
 
 VIDEO_PATH = PROJECT_DIR / "deadlift.mp4"
 MODEL_PATH = PROJECT_DIR / "pose_landmarker_full.task"
-OUTPUT_VIDEO_PATH = PROJECT_DIR / "deadlift_tracked.mp4"
+OUTPUT_VIDEO_PATH = PROJECT_DIR / "deadlift_mediapipe.mp4"
 OUTPUT_CSV_PATH = PROJECT_DIR / "landmarks.csv"
 
 # Lower values give stronger smoothing but introduce more lag.

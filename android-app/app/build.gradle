@@ -1,0 +1,49 @@
+plugins { id 'com.android.application' }
+
+android {
+    namespace 'com.motiontracker.app'
+    compileSdk 34
+    defaultConfig {
+        applicationId 'com.motiontracker.app'
+        minSdk 29
+        targetSdk 34
+        versionCode 2
+        versionName '1.1.0'
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        // Galaxy S23. Override with -Pabis=x86_64 for an emulator build.
+        ndk { abiFilters.addAll((project.findProperty('abis') ?: 'arm64-v8a').split(',')) }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    androidResources { noCompress += 'onnx' }
+    buildTypes {
+        release {
+            minifyEnabled false
+            // Configure signing locally; release APKs are intentionally unsigned by default.
+        }
+    }
+    testOptions { unitTests.returnDefaultValues = true }
+}
+
+dependencies {
+    implementation 'androidx.core:core:1.13.1'
+    implementation 'com.microsoft.onnxruntime:onnxruntime-android:1.23.2'
+    implementation 'org.opencv:opencv:4.12.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test:runner:1.6.2'
+    androidTestImplementation 'androidx.test:core:1.6.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+}
+
+tasks.register('checkModels') {
+    doLast {
+        ['detector.onnx', 'pose.onnx'].each { name ->
+            if (!file("src/main/assets/models/$name").isFile()) {
+                throw new GradleException("Missing $name. Run python tools/prepare_models.py from the project root.")
+            }
+        }
+    }
+}
+tasks.named('preBuild').configure { dependsOn 'checkModels' }

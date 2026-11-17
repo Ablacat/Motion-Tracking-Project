@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="starting_analysis">Starting analysis…</string>
+    <string name="cannot_start_analysis">Cannot start analysis: %1$s</string>
+    <string name="preview_title">Preview</string>
+    <string name="stop_preview">Stop</string>
+    <string name="preview_error">Unable to play this video. Try analysing the source video again.</string>
+</resources>
